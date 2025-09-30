@@ -41,11 +41,40 @@ class Cliente extends Persona {
         $conexion -> ejecutar($clienteDAO -> consultar());
         $clientes = array();
         while(($tupla = $conexion -> registro()) != null){
+            $this -> nombre = $tupla[1];
+            $this -> apellido = $tupla[2];
             $cliente = new Cliente($tupla[0], $tupla[1], $tupla[2], $tupla[4], "", $tupla[3]);
             array_push($clientes, $cliente);
         }
         $conexion -> cerrar();
         return $clientes;
+    }
+    public function consultar_sesion(){
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $clienteDAO = new ClienteDAO($this -> id);
+        $conexion -> ejecutar($clienteDAO -> consultar_sesion());
+        if(($tupla = $conexion -> registro()) != null){
+            $this -> nombre = $tupla[1];
+            $this -> apellido = $tupla[2];
+            $this -> fechaNacimiento = $tupla[3];
+            $this -> correo = $tupla[4];
+        }
+        $conexion -> cerrar();
+    }
+    public function autenticar(){
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $clienteDAO = new ClienteDAO("", "", "", "", $this -> correo, $this -> clave);
+        $conexion -> ejecutar($clienteDAO -> autenticar());
+        $tupla = $conexion -> registro();
+        $conexion -> cerrar();
+        if($tupla != null){
+            $this -> id = $tupla[0];
+            return true;
+        }else{
+            return false;
+        }
     }
         
     

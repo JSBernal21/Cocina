@@ -1,15 +1,15 @@
 <?php
 require_once("logica/Persona.php");
-require_once("logica/Admin.php");
+require_once("logica/Cliente.php");
 session_start();
+$id = $_SESSION["id"];
+$cliente = new Cliente($id);
+$cliente -> consultar_sesion();
 if (isset($_POST['cerrarSesion'])) {
     $_SESSION = [];
     session_destroy();
     header("Location: index.php");
 }
-$id = $_SESSION["id"];
-$admin = new Admin($id);
-$admin->consultar();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -35,18 +35,15 @@ $admin->consultar();
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Administrar productos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Administrar categorias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Registro de ventas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Pedidos pendientes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Reportes</a></li>
-
+                    <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Categorias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Registro de compras</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>Carrito</a></li>
                 </ul>
                 <div class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle btn btn-outline-secondary ms-3" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-user me-1"></i>
-                        <?php echo $admin->getNombre() . " " . $admin->getApellido() ?>
+                    <a class="nav-link dropdown-toggle btn btn-outline-secondary ms-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user me-1"></i> <?php echo $cliente->getNombre(); ?>
                     </a>
                     <div class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Perfil</a>
@@ -62,7 +59,6 @@ $admin->consultar();
             </div>
         </div>
     </nav>
-
 
 
     <!-- CARRUSEL -->

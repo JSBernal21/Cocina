@@ -23,8 +23,19 @@ class ClienteDAO {
 
     public function consultar(){
         return "select idCliente, nombre, apellido, fechaNacimiento, correo
-                from Cliente";
+                from Cliente
+                ";
     }
-    
+    public function consultar_sesion(){
+        return "select idCliente, nombre, apellido, fechaNacimiento, correo
+                from Cliente where idCliente = " . $this -> id . "
+                ";
+    }
+    public function autenticar(){
+        return "select idCliente
+                from Cliente
+                where correo = '" . $this -> correo . "' and clave = md5('" . $this -> clave . "')";
+    }
+     
 }
 

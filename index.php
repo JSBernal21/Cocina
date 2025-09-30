@@ -24,7 +24,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Categorias</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
       </ul>
-      <a href="#" class="btn btn-outline-secondary ms-3">
+      <a href="autenticar.php" class="btn btn-outline-secondary ms-3">
         <i class="fa-solid fa-user me-1"></i> Iniciar Sesión
       </a>
     </div>
