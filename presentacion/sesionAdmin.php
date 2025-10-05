@@ -4,7 +4,7 @@ if (strtolower($_SESSION["rol"]) != 'admin') {
     if ($_SESSION["id"] == NULL) {
         header("Location: index.php");
     } else {
-        header("Location: ?pid=sesion". $_SESSION["rol"]);
+        header("Location: ?pid=presentacion/sesion". $_SESSION["rol"] .".php");
     }
 } else {
 
@@ -27,8 +27,8 @@ if (strtolower($_SESSION["rol"]) != 'admin') {
                 </button>
                 <div class="collapse navbar-collapse" id="menu">
                     <ul class="navbar-nav ms-auto text-end">
-                        <li class="nav-item "><a class="nav-link active" href="?pid=sesionCliente">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="">Administrar productos</a></li>
+                        <li class="nav-item "><a class="nav-link active" href="#">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?pid=presentacion/registrar/registrarProducto.php">Administrar productos</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Administrar categorias</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Pedidos</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Reportes</a></li>

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once("logica/Persona.php");
 require_once("logica/Admin.php");
 require_once("logica/Cliente.php");
@@ -11,13 +10,13 @@ if (isset($_POST["autenticar"])) {
 	if ($admin->autenticar()) {
 		$_SESSION["id"] = $admin->getId();
 		$_SESSION["rol"] = "Admin";
-		header('Location: index.php?pid=sesionAdmin');
+		header('Location: index.php?pid=presentacion/sesionAdmin.php');
 	} else {
 		$cliente = new Cliente("", "", "", $correo, $clave, "");
 		if ($cliente->autenticar()) {
 			$_SESSION["id"] = $cliente->getId();
 			$_SESSION["rol"] = "Cliente";
-			header('Location: index.php?pid=sesionCliente');
+			header('Location: index.php?pid=presentacion/sesionCliente.php');
 		} else {
 			$error = true;
 		}
@@ -45,7 +44,7 @@ if (isset($_POST["autenticar"])) {
 					</div>
 					<div class="card-body p-4">
 						<h4 class="text-center mb-4">Iniciar Sesión</h4>
-						<form method="post" action="autenticar.php">
+						<form method="post" action="?pid=presentacion/autenticar.php"> 
 							<div class="mb-3">
 								<input type="email" class="form-control form-control-lg" name="correo"
 									placeholder="Correo" required>
@@ -71,7 +70,7 @@ if (isset($_POST["autenticar"])) {
 
 						?>
 						<div class="text-center my-4">
-							<span>¿No tienes una cuenta? <a href="registrarCliente.php"
+							<span>¿No tienes una cuenta? <a href="presentacion/registrar/registrarCliente.php"
 									class="text-decoration-none">Regístrate aquí</a></span>
 						</div>
 

@@ -1,6 +1,6 @@
 <?php 
-require_once ("logica/Persona.php");
-require_once ("logica/Cliente.php");
+require_once ("../../logica/Persona.php");
+require_once ("../../logica/Cliente.php");
 if(isset($_POST["registrar"])){
     $nombre = $_POST["nombre"];
     $apellido = $_POST["apellido"];

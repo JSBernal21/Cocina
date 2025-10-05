@@ -1,14 +1,14 @@
-4<?php
+<?php
 $id = $_SESSION["id"];
 if (strtolower($_SESSION["rol"]) != "cliente") {
     if ($_SESSION["id"] == NULL) {
         header("Location: index.php");
     } else {
-        header("Location: ?pid=sesion". $_SESSION["rol"]); 
+        header("Location: ?pid=presentacion/sesion". $_SESSION["rol"] .".php"); 
     } 
 } else {
 
-    $cliente = new Cliente($id);
+    $cliente = new Cliente($id); 
     $cliente->consultarPorId();
 
     ?>
