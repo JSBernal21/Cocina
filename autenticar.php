@@ -3,19 +3,23 @@ session_start();
 require_once("logica/Persona.php");
 require_once("logica/Admin.php");
 require_once("logica/Cliente.php");
-
+$error = false;
 if (isset($_POST["autenticar"])) {
 	$correo = $_POST["correo"];
 	$clave = $_POST["clave"];
 	$admin = new Admin("", "", "", $correo, $clave);
 	if ($admin->autenticar()) {
 		$_SESSION["id"] = $admin->getId();
-		header('Location: sesionAdmin.php');
+		$_SESSION["rol"] = "Admin";
+		header('Location: index.php?pid=sesionAdmin');
 	} else {
 		$cliente = new Cliente("", "", "", $correo, $clave, "");
 		if ($cliente->autenticar()) {
 			$_SESSION["id"] = $cliente->getId();
-			header('Location: sesionCliente.php');
+			$_SESSION["rol"] = "Cliente";
+			header('Location: index.php?pid=sesionCliente');
+		} else {
+			$error = true;
 		}
 	}
 }
@@ -36,7 +40,8 @@ if (isset($_POST["autenticar"])) {
 			<div class="col-md-5">
 				<div class="card shadow border-3 rounded-4">
 					<div class="card-header text-center bg-warning text-dark rounded-top-4">
-						<h3 class="mb-0"><i class="fa-solid fa-wine-bottle"><i class="fa-solid fa-wine-glass-empty"></i></i>Cocina Etílica</h3>
+						<h3 class="mb-0"><i class="fa-solid fa-wine-bottle"><i
+									class="fa-solid fa-wine-glass-empty"></i></i>Cocina Etílica</h3>
 					</div>
 					<div class="card-body p-4">
 						<h4 class="text-center mb-4">Iniciar Sesión</h4>
@@ -56,17 +61,17 @@ if (isset($_POST["autenticar"])) {
 							</div>
 						</form>
 						<?php
-						if (isset($_POST["autenticar"])) {
-							if (!$admin->autenticar() && !$cliente->autenticar()) {
-								echo "<div class='alert alert-danger text-center mt-3' role='alert'>
+
+						if ($error) {
+							echo "<div class='alert alert-danger text-center mt-3' role='alert'>
                                         <i class='fa-solid fa-circle-exclamation'></i>
                                         Correo o clave incorrecta
                                       </div>";
-							}
 						}
+
 						?>
 						<div class="text-center my-4">
-							<span >¿No tienes una cuenta? <a href="registrarCliente.php"
+							<span>¿No tienes una cuenta? <a href="registrarCliente.php"
 									class="text-decoration-none">Regístrate aquí</a></span>
 						</div>
 

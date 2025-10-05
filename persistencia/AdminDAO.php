@@ -19,7 +19,7 @@ class AdminDAO {
                 from Admin
                 where correo = '" . $this -> correo . "' and clave = md5('" . $this -> clave . "')";
     }
-    public function consultar(){
+    public function consultarPorId(){
         return "select nombre, apellido, correo
                 from Admin
                 where idAdmin = " . $this -> id;

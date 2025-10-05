@@ -20,26 +20,22 @@ class Admin extends Persona
         $conexion->cerrar();
         if ($tupla != null) {
             $this->id = $tupla[0];
-            printf($this->nombre);
             return true;
         } else {
             return false;
         }
     }
-    public function consultar()
+    public function consultarPorId()
     {
         $conexion = new Conexion();
         $conexion->abrir();
         $adminDAO = new AdminDAO($this->id);
-        $conexion->ejecutar($adminDAO->consultar());
-        $admins = array();
-        if (($tupla=$conexion->registro()) != null) {
-            $this->nombre = $tupla[0];
-            $this->apellido = $tupla[1]; 
-            $this->correo = $tupla[2];
-        }
+        $conexion->ejecutar($adminDAO->consultarPorId());
+        $tupla = $conexion->registro();
+        $this->nombre = $tupla[0];
+        $this->apellido = $tupla[1];
+        $this->correo = $tupla[2];
         $conexion->cerrar();
-        return $admins;
     }
 }
 

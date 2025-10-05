@@ -26,8 +26,8 @@ class ClienteDAO {
                 from Cliente
                 ";
     }
-    public function consultar_sesion(){
-        return "select idCliente, nombre, apellido, fechaNacimiento, correo
+    public function consultarPorId(){
+        return "select  nombre, apellido, fechaNacimiento, correo
                 from Cliente where idCliente = " . $this -> id . "
                 ";
     }
