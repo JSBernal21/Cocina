@@ -1,6 +1,6 @@
 <?php 
-require_once ("../../logica/Persona.php");
-require_once ("../../logica/Cliente.php");
+require_once ("logica/Persona.php");
+require_once ("logica/Cliente.php");
 if(isset($_POST["registrar"])){
     $nombre = $_POST["nombre"];
     $apellido = $_POST["apellido"];
@@ -8,21 +8,10 @@ if(isset($_POST["registrar"])){
     $correo = $_POST["correo"];
     $clave = $_POST["clave"];
     $cliente = new Cliente("", $nombre, $apellido, $correo, $clave, $fechaNacimiento);
-    $cliente -> registrar();
+	$cliente->registrar();
 }
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Cocina Etilica</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+
 	<div class="container">
 		<div class="row mt-5">
 			<div class="col-4"></div>
@@ -36,10 +25,13 @@ if(isset($_POST["registrar"])){
 						if(isset($_POST["registrar"])){
 						    echo "<div class='alert alert-success' role='alert'>
                                     Cliente almacenado
-                                    </div>";
+                                    </div>
+									<div class='text-center my-4'><span> <a href='?pid=". base64_encode("presentacion/autenticar.php")."'
+									class='text-decoration-none'>volver a autenticar</a></span>
+						</div>";
 						}
 						?>
-						<form method="post" action="registrarCliente.php">
+						<form method="post" action="?pid=<?php echo base64_encode("presentacion/cliente/registrarCliente.php")?>">
 							<div class="mb-3">
 								<input type="text" class="form-control" name="nombre"
 									placeholder="Nombre" required>
@@ -71,6 +63,3 @@ if(isset($_POST["registrar"])){
 			</div>
 		</div>
 	</div>
-
-</body>
-</html>

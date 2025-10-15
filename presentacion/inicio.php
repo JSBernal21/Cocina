@@ -1,4 +1,4 @@
-<body>
+
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
   <div class="container">
@@ -16,7 +16,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Categorias</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
       </ul>
-      <a href="index.php?pid=presentacion/autenticar.php" class="btn btn-outline-secondary ms-3">
+      <a href="?pid=<?php echo base64_encode("presentacion/autenticar.php") ?>" class="btn btn-outline-secondary ms-3">
         <i class="fa-solid fa-user me-1"></i> Iniciar Sesión
       </a>
     </div>
@@ -183,4 +183,3 @@
   </div>
 </footer>
 
-</body>

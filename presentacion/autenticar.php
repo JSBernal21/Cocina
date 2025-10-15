@@ -1,37 +1,29 @@
 <?php
-require_once("logica/Persona.php");
-require_once("logica/Admin.php");
-require_once("logica/Cliente.php");
+require_once ("logica/Persona.php");
+require_once ("logica/Admin.php");
+require_once ("logica/Cliente.php");
 $error = false;
-if (isset($_POST["autenticar"])) {
-	$correo = $_POST["correo"];
-	$clave = $_POST["clave"];
-	$admin = new Admin("", "", "", $correo, $clave);
-	if ($admin->autenticar()) {
-		$_SESSION["id"] = $admin->getId();
-		$_SESSION["rol"] = "Admin";
-		header('Location: index.php?pid=presentacion/sesionAdmin.php');
-	} else {
-		$cliente = new Cliente("", "", "", $correo, $clave, "");
-		if ($cliente->autenticar()) {
-			$_SESSION["id"] = $cliente->getId();
-			$_SESSION["rol"] = "Cliente";
-			header('Location: index.php?pid=presentacion/sesionCliente.php');
-		} else {
-			$error = true;
-		}
-	}
+if(isset($_POST["autenticar"])){
+    $correo = $_POST["correo"];
+    $clave = $_POST["clave"];
+    $admin = new Admin("", "", "", $correo, $clave);
+    if($admin -> autenticar()){
+        $_SESSION["id"] = $admin -> getId();
+        $_SESSION["rol"] = "admin";
+        header('Location: ?pid=' . base64_encode("presentacion/sesionAdmin.php"));
+    }else{
+        $cliente = new Cliente("", "", "", $correo, $clave);
+        if($cliente -> autenticar()){
+            $_SESSION["id"] = $cliente -> getId();
+            $_SESSION["rol"] = "cliente";
+            header('Location: ?pid=' . base64_encode("presentacion/sesionCliente.php"));
+        }else{
+            $error = true;
+        }
+    }
 }
-?>
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-	<meta charset="UTF-8">
-	<title>Cocina Etilica</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+?>
 
 <body class="bg-light align-items-center my-5">
 	<div class="container">
@@ -44,7 +36,7 @@ if (isset($_POST["autenticar"])) {
 					</div>
 					<div class="card-body p-4">
 						<h4 class="text-center mb-4">Iniciar Sesión</h4>
-						<form method="post" action="?pid=presentacion/autenticar.php"> 
+						<form method="post" action="?pid=<?php echo base64_encode("presentacion/autenticar.php")?>"> 
 							<div class="mb-3">
 								<input type="email" class="form-control form-control-lg" name="correo"
 									placeholder="Correo" required>
@@ -70,8 +62,12 @@ if (isset($_POST["autenticar"])) {
 
 						?>
 						<div class="text-center my-4">
-							<span>¿No tienes una cuenta? <a href="presentacion/registrar/registrarCliente.php"
+							<span>¿No tienes una cuenta? <a href="?pid=<?php echo base64_encode("presentacion/cliente/registrarCliente.php")?>"
 									class="text-decoration-none">Regístrate aquí</a></span>
+						</div>
+						<div class="text-center my-4">
+							<span>¿Quieres volver al inicio? <a href="?pid=<?php echo base64_encode("presentacion/inicio.php")?>"
+									class="text-decoration-none">Oprime aquí</a></span>
 						</div>
 
 					</div>
@@ -80,5 +76,3 @@ if (isset($_POST["autenticar"])) {
 		</div>
 	</div>
 </body>
-
-</html>
