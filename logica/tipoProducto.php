@@ -1,7 +1,7 @@
 <?php
 require_once 'persistencia/Conexion.php';
-require_once 'persistencia/tipoProductoDAO.php';
-class tipoProducto {
+require_once 'persistencia/TipoProductoDAO.php';
+class TipoProducto {
 	private $id;
 	private $nombre;
 
@@ -16,7 +16,7 @@ class tipoProducto {
         $conexion -> ejecutar($tipoProductoDAO -> consultar());
         $tipoProductos= array();
         while(($tupla = $conexion -> registro()) != null){
-            $tipoProducto = new tipoProducto($tupla[0], $tupla[1]);
+            $tipoProducto = new TipoProducto($tupla[0], $tupla[1]);
             array_push($tipoProductos, $tipoProducto);
         }
         $conexion -> cerrar();
@@ -37,4 +37,13 @@ class tipoProducto {
         $this->nombre = $nombre;
     }
     
+    public function consultarPorId(){
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $tipoPropductoDAO = new TipoProductoDAO($this -> id);
+        $conexion -> ejecutar($tipoPropductoDAO -> consultarPorId());
+        $tupla = $conexion -> registro();
+        $conexion -> cerrar();
+        $this -> nombre = $tupla[0];
+    }
 }

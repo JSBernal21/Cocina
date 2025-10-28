@@ -1,36 +1,44 @@
 <?php
-class ProductoDAO
-{
-    private $idProducto;
+
+class ProductoDAO{
+    private $id;
     private $nombre;
-    private $tamaño;
-    private $precioVenta;
+    private $tamano;
+    private $precio;
     private $imagen;
     private $proveedor;
     private $tipoProducto;
 
-    public function __construct($idProducto = "", $nombre = "", $tamaño = "", $precioVenta = "", $imagen = "", $proveedor = "", $tipoProducto = "")
-    {
-        $this->idProducto = $idProducto;
-        $this->nombre = $nombre;
-        $this->tamaño = $tamaño;
-        $this->precioVenta = $precioVenta;
-        $this->imagen = $imagen;
-        $this->proveedor = $proveedor;
-        $this->tipoProducto = $tipoProducto;
+    public function __construct($id=0, $nombre="", $tamano=0, $precio=0, $imagen="", $proveedor=0, $tipoProducto=0){
+        $this -> id = $id;
+        $this -> nombre = $nombre;
+        $this -> tamano = $tamano;
+        $this -> precio = $precio;
+        $this -> imagen = $imagen;
+        $this -> proveedor = $proveedor;
+        $this -> tipoProducto = $tipoProducto;
     }
-
-    public function registrar()
-    {
-        return "insert into producto (nombre, tamaño, precioVenta, imagen, Proveedor_idProveedor, TipoProducto_idTipoProducto)
-                values ('" . $this->nombre . "', '" . $this->tamaño . "', '" . $this->precioVenta . "', '" . $this->imagen . "', '" . $this->proveedor . "', '" . $this->tipoProducto . "')";
+    public function crear(){
+        return "insert into Producto(nombre, tamano, precioVenta, imagen, Proveedor_idProveedor, TipoProducto_idTipoProducto)
+                values ('" . $this -> nombre . "', " . $this -> tamano . ", " . $this -> precio . ", '" . $this -> imagen . "', " . $this -> proveedor . ", " . $this -> tipoProducto . ")";
+    }
+    public function editar(){
+        return "update Producto set nombre='".$this->nombre."', tamano=".$this->tamano.", precioVenta=".$this->precio.", 
+        imagen='".$this->imagen."', Proveedor_idProveedor=".$this->proveedor.", TipoProducto_idTipoProducto=".$this->tipoProducto."
+        where idProducto=".$this->id;
     }
     public function consultar(){
-        return "select p.idProducto, p.nombre, p.tamaño, p.precioVenta, tp.nombre, pr.nombre
-                from producto p join tipoProducto tp on p.TipoProducto_idTipoProducto = tp.idTipoProducto
-                join proveedor pr on p.Proveedor_idProveedor = pr.idProveedor
-                order by p.idProducto asc
-                ";
+        return "select idProducto, nombre, tamano, precioVenta, imagen, Proveedor_idProveedor, TipoProducto_idTipoProducto
+                from Producto";
+    }
+    public function consultarProv(){
+        return "select idProveedor, nombre
+                from Proveedor";
+    }
+    public function consultarPorId(){
+        return "select idProducto, nombre, tamano, precioVenta, imagen, Proveedor_idProveedor, TipoProducto_idTipoProducto
+                from Producto
+                where idProducto=".$this->id;
     }
 }
 ?>

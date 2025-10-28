@@ -1,56 +1,108 @@
 <?php
 require_once("persistencia/Conexion.php");
-require_once("persistencia/productoDAO.php");
-
+require_once("persistencia/ProductoDAO.php");
+require_once("logica/Proveedor.php");
+require_once("logica/TipoProducto.php");
 class Producto
 {
-    private $idProducto;
+    private $id;
     private $nombre;
-    private $tamaño;
-    private $precioVenta;
+    private $tamano;
+    private $precio;
     private $imagen;
     private $proveedor;
     private $tipoProducto;
 
-    public function __construct($idProducto = "", $nombre = "", $tamaño = "", $precioVenta = "", $imagen = "", $proveedor = "", $tipoProducto = "")
+    public function __construct($id = 0, $nombre = "", $tamano = 0, $precio = 0, $imagen = "", $proveedor = 0, $tipoProducto = 0)
     {
-        $this->idProducto = $idProducto;
+        $this->id = $id;
         $this->nombre = $nombre;
-        $this->tamaño = $tamaño;
-        $this->precioVenta = $precioVenta;
+        $this->tamano = $tamano;
+        $this->precio = $precio;
         $this->imagen = $imagen;
         $this->proveedor = $proveedor;
         $this->tipoProducto = $tipoProducto;
     }
 
-    public function registrar()
+
+
+    public function crear()
     {
         $conexion = new Conexion();
         $conexion->abrir();
-        $productoDAO = new ProductoDAO($this->idProducto, $this->nombre, $this->tamaño, $this->precioVenta, $this->imagen, $this->proveedor, $this->tipoProducto);
-        $conexion->ejecutar($productoDAO->registrar());
+        $productoDAO = new ProductoDAO("", $this->nombre, $this->tamano, $this->precio, $this->imagen, $this->proveedor, $this->tipoProducto);
+        $conexion->ejecutar($productoDAO->crear());
         $conexion->cerrar();
     }
-    public function consultar(){
+    public function editar()
+    {
         $conexion = new Conexion();
-        $conexion -> abrir();
+        $conexion->abrir();
+        $productoDAO = new ProductoDAO($this->id, $this->nombre, $this->tamano, $this->precio, $this->imagen, $this->proveedor, $this->tipoProducto);
+        $conexion->ejecutar($productoDAO->editar());
+        $conexion->cerrar();
+    }
+
+    public function consultar()
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
         $productoDAO = new ProductoDAO();
-        $conexion -> ejecutar($productoDAO -> consultar());
+        $conexion->ejecutar($productoDAO->consultar());
         $productos = array();
-        while(($tupla = $conexion -> registro()) != null){
-            $producto = new Producto($tupla[0], $tupla[1], $tupla[2], $tupla[3], "", $tupla[4], $tupla[5]);
+        while (($tupla = $conexion->registro()) != null) {
+            $proveedor = new Proveedor($tupla[5]);
+            $proveedor->consultarPorId();
+            $tipoProducto = new TipoProducto($tupla[6]);
+            $tipoProducto->consultarPorId();
+            $producto = new Producto($tupla[0], $tupla[1], $tupla[2], $tupla[3], $tupla[4], $proveedor, $tipoProducto);
             array_push($productos, $producto);
         }
-        $conexion -> cerrar();
+        $conexion->cerrar();
         return $productos;
+    }
+    public function consultarPorId()
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $productoDAO = new ProductoDAO($this->id);
+        $conexion->ejecutar($productoDAO->consultarPorId());
+        $productos = array();
+        $tupla = $conexion->registro();
+        $proveedor = new Proveedor($tupla[5]);
+        
+        $tipoProducto = new TipoProducto($tupla[6]);
+        $tipoProducto->consultarPorId();
+        $this->id=$tupla[0];
+        $this->nombre=$tupla[1]; 
+        $this->tamano=$tupla[2]; 
+        $this->precio=$tupla[3]; 
+        $this->imagen=$tupla[4];
+        $this->proveedor=$tupla[5];
+        $this->tipoProducto=$tupla[6];
+
+    }
+    public function consultarProv()
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $proveedorDAO = new ProveedorDAO();
+        $conexion->ejecutar($proveedorDAO->consultar());
+        $proveedores = array();
+        while ($registro = $conexion->registro()) {
+            $p = new Proveedor($registro[0], $registro[1]);
+            array_push($proveedores, $p);
+        }
+        $conexion->cerrar();
+        return $proveedores;
     }
     public function getIdProducto()
     {
-        return $this->idProducto;
+        return $this->id;
     }
-    public function setIdProducto($idProducto)
+    public function setId($id)
     {
-        $this->idProducto = $idProducto;
+        $this->id = $id;
     }
     public function getNombre()
     {
@@ -60,21 +112,21 @@ class Producto
     {
         $this->nombre = $nombre;
     }
-    public function getTamaño()
+    public function getTamano()
     {
-        return $this->tamaño;
+        return $this->tamano;
     }
-    public function setTamaño($tamaño)
+    public function setTamano($tamano)
     {
-        $this->tamaño = $tamaño;
+        $this->tamano = $tamano;
     }
     public function getPrecioVenta()
     {
-        return $this->precioVenta;
+        return $this->precio;
     }
-    public function setPrecioVenta($precioVenta)
+    public function setPrecioVenta($precio)
     {
-        $this->precioVenta = $precioVenta;
+        $this->precio = $precio;
     }
     public function getImagen()
     {
@@ -100,5 +152,7 @@ class Producto
     {
         $this->tipoProducto = $tipoProducto;
     }
+
 }
+
 ?>

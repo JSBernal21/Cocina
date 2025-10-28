@@ -1,5 +1,5 @@
 <?php
-class tipoProductoDao {
+class TipoProductoDAO {
     private $idTipoProducto;
     private $nombre;
 
@@ -10,8 +10,16 @@ class tipoProductoDao {
 
     public function consultar(){
         return "select idTipoProducto, nombre
-                from tipoProducto
+                from TipoProducto
                 ";
     }
+    
+    public function consultarPorId(){
+        return "select nombre
+                from TipoProducto
+                where idTipoProducto = '" . $this -> idTipoProducto . "'";
+    }
+    
+
 }
 ?>

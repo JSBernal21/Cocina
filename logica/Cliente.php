@@ -53,19 +53,6 @@ class Cliente extends Persona
         $conexion->cerrar();
         return $clientes;
     }
-    public function consultarPorId()
-    {
-        $conexion = new Conexion();
-        $conexion->abrir();
-        $clienteDAO = new ClienteDAO($this->id);
-        $conexion->ejecutar($clienteDAO->consultarPorId());
-        $tupla = $conexion->registro();
-        $this->nombre = $tupla[0];
-        $this->apellido = $tupla[1];
-        $this->fechaNacimiento = $tupla[2];
-        $this->correo = $tupla[3];
-        $conexion->cerrar();
-    }
     public function autenticar()
     {
         $conexion = new Conexion();
@@ -81,6 +68,20 @@ class Cliente extends Persona
             return false;
         }
     }
+    public function consultarPorId()
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $clienteDAO = new ClienteDAO($this->id);
+        $conexion->ejecutar($clienteDAO->consultarPorId());
+        $tupla = $conexion->registro();
+        $this->nombre = $tupla[0];
+        $this->apellido = $tupla[1];
+        $this->fechaNacimiento = $tupla[2];
+        $this->correo = $tupla[3];
+        $conexion->cerrar();
+    }
+    
 
 
 }

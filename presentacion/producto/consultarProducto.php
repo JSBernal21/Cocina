@@ -2,9 +2,9 @@
 require_once("logica/producto.php");
 $producto = new Producto();
 $productos = $producto->consultar();
-if($_SESSION["rol"] == "admin"){
+if ($_SESSION["rol"] == "admin") {
 	include("presentacion/menuAdmin.php");
-}else if($_SESSION["rol"] == "cliente"){
+} else if ($_SESSION["rol"] == "cliente") {
 	include("presentacion/cliente/menuCliente.php");
 }
 ?>
@@ -32,6 +32,7 @@ if($_SESSION["rol"] == "admin"){
 									<th scope="col">Precio de Venta</th>
 									<th scope="col">Proveedor</th>
 									<th scope="col">Tipo de Producto</th>
+									<th scope="col">Opcion</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -40,10 +41,15 @@ if($_SESSION["rol"] == "admin"){
 									echo "<tr>";
 									echo "<td>" . $p->getIdProducto() . "</td>";
 									echo "<td>" . $p->getNombre() . "</td>";
-									echo "<td>" . $p->getTamaño() . "</td>";
+									echo "<td>" . $p->getTamano() . "</td>";
 									echo "<td>" . $p->getPrecioVenta() . "</td>";
-									echo "<td>" . $p->getProveedor() . "</td>";
-									echo "<td>" . $p->getTipoProducto() . "</td>";
+									echo "<td>" . $p->getProveedor()->getNombre() . "</td>";
+									echo "<td>" . $p->getTipoProducto()->getNombre() . "</td>";
+									echo "<td scope='col'>
+                                    <a href='?pid=" . base64_encode("presentacion/producto/editarProducto.php") . "&id=" . $p->getIdProducto() . "'>
+                                        <button type='submit' class='btn btn-warning'>Editar</button>
+                                    </a>
+                                    </td>";
 									echo "</tr>";
 								}
 								?>
