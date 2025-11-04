@@ -26,6 +26,9 @@
 						<li><a class="dropdown-item"
 							href="?pid=<?php echo base64_encode("presentacion/producto/consultarProducto.php") ?>">Consultar
 								Productos</a></li>
+						<li><a class="dropdown-item"
+							href="?pid=<?php echo base64_encode("presentacion/producto/buscarProducto.php") ?>">Busccar
+								Productos</a></li>
 						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="#">Something else here</a></li>
 					</ul></li>

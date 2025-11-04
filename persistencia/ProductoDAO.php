@@ -26,9 +26,11 @@ class ProductoDAO{
         return "select idProducto, nombre, tamano, precioVenta, imagen, Proveedor_idProveedor, TipoProducto_idTipoProducto
                 from Producto";
     }
-    public function consultarProv(){
-        return "select idProveedor, nombre
-                from Proveedor";
+    public function buscar($filtro){
+        return "select idProducto, nombre, tamano, precioVenta, imagen, Proveedor_idProveedor, TipoProducto_idTipoProducto
+                from Producto
+                where nombre like '%" . $filtro . "%'";
     }
+    
 }
 ?>
