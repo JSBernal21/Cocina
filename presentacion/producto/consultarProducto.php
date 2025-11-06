@@ -1,5 +1,4 @@
 <?php
-require_once("logica/producto.php");
 $producto = new Producto();
 $productos = $producto->consultar();
 if ($_SESSION["rol"] == "admin") {

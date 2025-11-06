@@ -10,7 +10,7 @@ if (isset($_POST["registrar"])) {
 	$proveedor = $_POST["proveedor"];
 	$tipoProducto = $_POST["tipoProducto"];
 	$producto = new Producto("", $nombre, $tamaño, $precioVenta, $imagen, $proveedor, $tipoProducto);
-	$producto->registrar();
+	$producto->crear();
 }
 $proveedor = new Proveedor();
 $proveedores = $proveedor->consultar();

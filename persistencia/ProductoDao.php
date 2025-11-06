@@ -40,5 +40,10 @@ class ProductoDAO{
                 from Producto
                 where idProducto=".$this->id;
     }
+    public function buscar($filtro){
+        return "select idProducto, nombre, tamano, precioVenta, imagen, Proveedor_idProveedor, TipoProducto_idTipoProducto
+                from Producto
+                where nombre like '%" . $filtro . "%'";
+    }
 }
 ?>

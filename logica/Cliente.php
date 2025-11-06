@@ -5,7 +5,7 @@ require_once("persistencia/ClienteDAO.php");
 class Cliente extends Persona
 {
     private $fechaNacimiento;
-
+    private $estado;
     /**
      * @return mixed
      */
@@ -13,6 +13,11 @@ class Cliente extends Persona
     {
         return $this->fechaNacimiento;
     }
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+    
 
     /**
      * @param mixed $fechaNacimiento
@@ -22,10 +27,11 @@ class Cliente extends Persona
         $this->fechaNacimiento = $fechaNacimiento;
     }
 
-    public function __construct($id = 0, $nombre = "", $apellido = "", $correo = "", $clave = "", $fechaNacimiento = "")
+    public function __construct($id = 0, $nombre = "", $apellido = "", $correo = "", $clave = "", $fechaNacimiento = "", $estado="")
     {
         parent::__construct($id, $nombre, $apellido, $correo, $clave);
         $this->fechaNacimiento = $fechaNacimiento;
+        $this -> estado = $estado;
     }
 
     public function registrar()
@@ -34,6 +40,14 @@ class Cliente extends Persona
         $conexion->abrir();
         $clienteDAO = new ClienteDAO("", $this->nombre, $this->apellido, $this->fechaNacimiento, $this->correo, $this->clave);
         $conexion->ejecutar($clienteDAO->registrar());
+        $conexion->cerrar();
+    }
+    public function editarEstado()
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $clienteDAO = new ClienteDAO($this->id,"","","","","",$this->estado);
+        $conexion->ejecutar($clienteDAO->editarEstado());
         $conexion->cerrar();
     }
 
@@ -47,7 +61,7 @@ class Cliente extends Persona
         while (($tupla = $conexion->registro()) != null) {
             $this->nombre = $tupla[1];
             $this->apellido = $tupla[2];
-            $cliente = new Cliente($tupla[0], $tupla[1], $tupla[2], $tupla[4], "", $tupla[3]);
+            $cliente = new Cliente($tupla[0], $tupla[1], $tupla[2], $tupla[4], "", $tupla[3],$tupla[5]);
             array_push($clientes, $cliente);
         }
         $conexion->cerrar();

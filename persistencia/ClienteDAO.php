@@ -6,23 +6,27 @@ class ClienteDAO {
     private $fechaNacimiento;
     private $correo;
     private $clave;
+    private $estado;
 
-    public function __construct($id=0, $nombre="", $apellido="", $fechaNacimiento="", $correo="", $clave=""){
+    public function __construct($id=0, $nombre="", $apellido="", $fechaNacimiento="", $correo="", $clave="", $estado=""){
         $this -> id = $id;
         $this -> nombre = $nombre;
         $this -> apellido = $apellido;
         $this -> fechaNacimiento = $fechaNacimiento;
         $this -> correo = $correo;
         $this -> clave = $clave;
+        $this -> estado = $estado;
     }
     
     public function registrar(){
         return "insert into Cliente(nombre, apellido, fechaNacimiento, correo, clave)
                 values ('" . $this -> nombre . "', '" . $this -> apellido . "', '" . $this -> fechaNacimiento . "', '" . $this -> correo . "', md5('" . $this -> clave . "'))";
     }
-
+    public function editarEstado(){
+        return "update Cliente set estado=".$this->estado." where idCliente=".$this -> id;
+    }
     public function consultar(){
-        return "select idCliente, nombre, apellido, fechaNacimiento, correo
+        return "select idCliente, nombre, apellido, fechaNacimiento, correo, estado
                 from Cliente
                 ";
     }
