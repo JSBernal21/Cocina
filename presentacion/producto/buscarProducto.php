@@ -9,8 +9,6 @@ if (strtolower($_SESSION["rol"]) != 'admin') {
 } else {
     include("presentacion/menuAdmin.php");
 }
-$producto = new Producto();
-$productos = $producto -> consultar();
 ?>
 <body>
     <div class="container">
