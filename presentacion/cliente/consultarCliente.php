@@ -50,8 +50,8 @@ $clientes = $cliente->consultar();
 									echo "<td>" . $c->getApellido() . "</td>";
 									echo "<td>" . $c->getfechaNacimiento() . "</td>";
 									echo "<td>" . $c->getCorreo() . "</td>";
-									echo "<td><div id='estado" . $c->getId() . "'>" . (($c->getEstado() == 1) ? ("<i class='fa-solid fa-check'> </i></div> </td>") : ("<i class='fa-solid fa-xmark'></i></div> </td>"));
-									echo "<td id='opcion" . $c->getId() . "' >" . (($c->getEstado() == 1) ? ("<div class='text-danger' ><i class='fa-solid fa-user-xmark'></i></div></td>") : ("<div  class='text-success'><i class='fa-solid fa-user-check'></i></div></td>"));
+									echo "<td><div id='estado" . $c->getId() . "'>" . (($c->getEstado() == 1) ? ("<div class ='bg-success rounded-5 text-light ps-2'><i class='fa-solid fa-check'></i> Habilitado</div></div></td>") : ("<div class ='bg-danger rounded-5 text-light ps-2'><i class='fa-solid fa-xmark'></i> Deshabilitado</div></div></td>"));
+									echo "<td id='opcion" . $c->getId() . "' >" . (($c->getEstado() == 1) ? ("<div class='text-danger' ><i class='fa-solid fa-user-xmark'></i> Deshabilitar</div></td>") : ("<div  class='text-success'><i class='fa-solid fa-user-check'></i> Habilitar</div></td>"));
 									echo "</tr>";
 								}
 								?>
@@ -78,13 +78,13 @@ foreach ($clientes as $c) {
 				$('#estado<?php echo $c->getId() ?>').load(url, function() {
 					estado<?php echo $c->getId() ?>=0;
 				})
-				$('#opcion<?php echo $c->getId() ?>').append("<div class='text-success' ><i class='fa-solid fa-user-check'></i></div>");
+				$('#opcion<?php echo $c->getId() ?>').append("<div class='text-success' ><i class='fa-solid fa-user-check'></i> Habilitar </div>");
 			} else {
 				url = "?pid=<?php echo base64_encode("presentacion/cliente/estadoClienteAjax.php") ?>&c=" + <?php echo $c->getId() ?> + "&e=1";
 				$('#estado<?php echo $c->getId() ?>').load(url, function() {
 					estado<?php echo $c->getId() ?>=1;
 				})
-				$('#opcion<?php echo $c->getId() ?>').append("<div class='text-danger' ><i class='fa-solid fa-user-xmark'></i></div>");
+				$('#opcion<?php echo $c->getId() ?>').append("<div class='text-danger' ><i class='fa-solid fa-user-xmark'></i> Deshabilitar </div>");
 			}
 		});
 	</script>
