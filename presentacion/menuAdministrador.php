@@ -18,7 +18,18 @@
 						para admin</a></li>
 				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
 					href="#" role="button" data-bs-toggle="dropdown"
-					aria-expanded="false"> Prodcuto </a>
+					aria-expanded="false"> Cliente </a>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item"
+							href="?pid=<?php echo base64_encode("presentacion/cliente/consultarCliente.php") ?>">Consultar
+								Clientes</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#">Something else here</a></li>
+					</ul></li>
+
+				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+					href="#" role="button" data-bs-toggle="dropdown"
+					aria-expanded="false"> Producto </a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item"
 							href="?pid=<?php echo base64_encode("presentacion/producto/crearProducto.php") ?>">Crear

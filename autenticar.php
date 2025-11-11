@@ -2,7 +2,7 @@
 require_once ("logica/Persona.php");
 require_once ("logica/Admin.php");
 require_once ("logica/Cliente.php");
-$error = false;
+$error = 0;
 if(isset($_POST["autenticar"])){
     $correo = $_POST["correo"];
     $clave = $_POST["clave"];
@@ -12,13 +12,17 @@ if(isset($_POST["autenticar"])){
         $_SESSION["rol"] = "admin";
         header('Location: ?pid=' . base64_encode("presentacion/sesionAdmin.php"));
     }else{
-        $cliente = new Cliente("", "", "", $correo, $clave);
+        $cliente = new Cliente("", "", "", $correo, $clave);        
         if($cliente -> autenticar()){
-            $_SESSION["id"] = $cliente -> getId();
-            $_SESSION["rol"] = "cliente";
-            header('Location: ?pid=' . base64_encode("presentacion/sesionCliente.php"));
+            if($cliente -> getEstado()){
+                $_SESSION["id"] = $cliente -> getId();
+                $_SESSION["rol"] = "cliente";
+                header('Location: ?pid=' . base64_encode("presentacion/sesionCliente.php"));
+            }else{
+                $error = 2;
+            }
         }else{
-            $error = true;
+            $error = 1;
         }
     }
 }
@@ -66,9 +70,13 @@ if(isset($_POST["autenticar"])){
 							</div>
 						</form>
 						<?php
-                        if ($error) {
+                        if ($error == 1) {
                             echo "<div class='alert alert-danger' role='alert'>
                                     Correo o clave incorrectos
+                                    </div>";
+                        }else if($error == 2){
+                            echo "<div class='alert alert-danger' role='alert'>
+                                    Cliente inhabilitado
                                     </div>";
                         }
                         ?>
