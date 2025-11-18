@@ -13,9 +13,9 @@ if(isset($_POST["registrar"])){
     $asunto = "Regitro de cliente";
     $mensaje = "Hola " . $nombre . "\n\r";
     $mensaje .= "Debe activar su cuenta haciendo clic en: \n\r";
-    $mensaje .= "http://cocinaetilica.itiud.org/?pid=" . base64_encode("presentacion/cliente/activarCliente.php") . "&c=" . $correo;
+    $mensaje .= "http://cocinaetilica.itiud.org/?pid=" . base64_encode("presentacion/cliente/activarCliente.php") . "&c=" . base64_encode($correo);
     $opciones = array(
-        "From" => "contacto@itiud.org",
+        "From" => "Cocina Etilica <contacto@itiud.org>",
         "Reply-To" => "no-responder@itiud.org"
     );
     

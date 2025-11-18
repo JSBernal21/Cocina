@@ -23,6 +23,12 @@ class ClienteDAO {
                 values ('" . $this -> nombre . "', '" . $this -> apellido . "', '" . $this -> fechaNacimiento . "', '" . $this -> correo . "', md5('" . $this -> clave . "'), '0')";
     }
 
+    public function activar($correo){
+        return "update Cliente
+                set estado = '1'
+                where correo = '" . $correo . "'";
+    }
+    
     public function consultar(){
         return "select idCliente, nombre, apellido, fechaNacimiento, correo, estado
                 from Cliente";
