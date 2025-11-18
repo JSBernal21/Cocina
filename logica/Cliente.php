@@ -37,7 +37,6 @@ class Cliente extends Persona {
         $conexion = new Conexion();
         $conexion -> abrir();
         $clienteDAO = new ClienteDAO("", $this -> nombre, $this -> apellido, $this -> fechaNacimiento, $this -> correo, $this -> clave, $this -> estado);        
-        echo $clienteDAO -> registrar();
         $conexion -> ejecutar($clienteDAO -> registrar());
         $conexion -> cerrar();
     }
@@ -46,7 +45,6 @@ class Cliente extends Persona {
         $conexion = new Conexion();
         $conexion -> abrir();
         $clienteDAO = new ClienteDAO();
-        echo $clienteDAO -> registrar();
         $conexion -> ejecutar($clienteDAO -> activar($correo));
         $conexion -> cerrar();
     }
