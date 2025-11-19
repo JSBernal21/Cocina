@@ -43,5 +43,4 @@ $( "#filtro" ).on( "keyup", function() {
   		$("#resultados").load(url);
   	}
 } );
-
 </script>

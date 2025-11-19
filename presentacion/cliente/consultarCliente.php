@@ -1,18 +1,17 @@
 <?php
 if (strtolower($_SESSION["rol"]) != 'admin') {
-    if ($_SESSION["id"] == NULL) {
-        header("Location: ?pid=" . base64_encode("presentacion/inicio.php"));
-    } else {
-        header("Location: ?pid=" . base64_encode("presentacion/sesion" . $_SESSION["rol"] . ".php"));
-    }
+	if ($_SESSION["id"] == NULL) {
+		header("Location: ?pid=" . base64_encode("presentacion/inicio.php"));
+	} else {
+		header("Location: ?pid=" . base64_encode("presentacion/sesion" . $_SESSION["rol"] . ".php"));
+	}
 } else {
-    include("presentacion/menuAdmin.php");
+	include("presentacion/menuAdmin.php");
 }
 $cliente = new Cliente();
 $clientes = $cliente->consultar();
 
 ?>
-
 
 <div class="container">
 	<div class="row mt-5">
@@ -65,25 +64,21 @@ $clientes = $cliente->consultar();
 </div>
 <?php
 foreach ($clientes as $c) {
-
 	?>
 	<script>
-		
+
 		let estado<?php echo $c->getId() ?> = <?php echo $c->getEstado() ?>;
 		$('#opcion<?php echo $c->getId() ?>').on("click", function () {
-			console.log("Activo");
 			$('#opcion<?php echo $c->getId() ?>').empty();
-			if (estado<?php echo $c->getId() ?>) { 
+			if (estado<?php echo $c->getId() ?>) {
 				url = "?pid=<?php echo base64_encode("presentacion/cliente/estadoClienteAjax.php") ?>&c=" + <?php echo $c->getId() ?> + "&e=0";
-				$('#estado<?php echo $c->getId() ?>').load(url, function() {
-					estado<?php echo $c->getId() ?>=0;
-				})
+				$('#estado<?php echo $c->getId() ?>').load(url);
+				estado<?php echo $c->getId() ?> = 0;
 				$('#opcion<?php echo $c->getId() ?>').append("<div class='text-success' ><i class='fa-solid fa-user-check'></i> Habilitar </div>");
 			} else {
 				url = "?pid=<?php echo base64_encode("presentacion/cliente/estadoClienteAjax.php") ?>&c=" + <?php echo $c->getId() ?> + "&e=1";
-				$('#estado<?php echo $c->getId() ?>').load(url, function() {
-					estado<?php echo $c->getId() ?>=1;
-				})
+				$('#estado<?php echo $c->getId() ?>').load(url);
+				estado<?php echo $c->getId() ?> = 1;
 				$('#opcion<?php echo $c->getId() ?>').append("<div class='text-danger' ><i class='fa-solid fa-user-xmark'></i> Deshabilitar </div>");
 			}
 		});
