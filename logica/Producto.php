@@ -1,10 +1,8 @@
 <?php
-require_once("persistencia/Conexion.php");
-require_once("persistencia/ProductoDAO.php");
-require_once("logica/Proveedor.php");
-require_once("logica/TipoProducto.php");
-class Producto
-{
+require_once ("persistencia/Conexion.php");
+require_once ("persistencia/ProductoDAO.php");
+
+class Producto{
     private $id;
     private $nombre;
     private $tamano;
@@ -13,75 +11,85 @@ class Producto
     private $proveedor;
     private $tipoProducto;
 
-    public function __construct($id = 0, $nombre = "", $tamano = 0, $precio = 0, $imagen = "", $proveedor = 0, $tipoProducto = 0)
-    {
-        $this->id = $id;
-        $this->nombre = $nombre;
-        $this->tamano = $tamano;
-        $this->precio = $precio;
-        $this->imagen = $imagen;
-        $this->proveedor = $proveedor;
-        $this->tipoProducto = $tipoProducto;
+    public function __construct($id=0, $nombre="", $tamano=0, $precio=0, $imagen="", $proveedor=0, $tipoProducto=0){
+        $this -> id = $id;
+        $this -> nombre = $nombre;
+        $this -> tamano = $tamano;
+        $this -> precio = $precio;
+        $this -> imagen = $imagen;
+        $this -> proveedor = $proveedor;
+        $this -> tipoProducto = $tipoProducto;
     }
 
-
-
-    public function crear()
-    {
-        $conexion = new Conexion();
-        $conexion->abrir();
-        $productoDAO = new ProductoDAO("", $this->nombre, $this->tamano, $this->precio, $this->imagen, $this->proveedor, $this->tipoProducto);
-        $conexion->ejecutar($productoDAO->crear());
-        $conexion->cerrar();
+    public function getId(){
+        return $this -> id;
     }
-    public function editar()
-    {
-        $conexion = new Conexion();
-        $conexion->abrir();
-        $productoDAO = new ProductoDAO($this->id, $this->nombre, $this->tamano, $this->precio, $this->imagen, $this->proveedor, $this->tipoProducto);
-        $conexion->ejecutar($productoDAO->editar());
-        $conexion->cerrar();
+    public function setId($id){
+        $this -> id = $id;
+    }
+    public function getNombre(){
+        return $this -> nombre;
+    }
+    public function setNombre($nombre){
+        $this -> nombre = $nombre;
+    }
+    public function getTamano(){
+        return $this -> tamano;
+    }
+    public function setTamano($tamano){
+        $this -> tamano = $tamano;
+    }
+    public function getPrecio(){
+        return $this -> precio;
+    }
+    public function setPrecio($precio){
+        $this -> precio = $precio;
+    }
+    public function getImagen(){
+        return $this -> imagen;
+    }
+    public function setImagen($imagen){
+        $this -> imagen = $imagen;
+    }
+    public function getProveedor(){
+        return $this -> proveedor;
+    }
+    public function setProveedor($proveedor){
+        $this -> proveedor = $proveedor;
+    }
+    public function getTipoProducto(){
+        return $this -> tipoProducto;
+    }
+    public function setTipoProducto($tipoProducto){
+        $this -> tipoProducto = $tipoProducto;
     }
 
-    public function consultar()
-    {
+    public function crear(){
         $conexion = new Conexion();
-        $conexion->abrir();
-        $productoDAO = new ProductoDAO();
-        $conexion->ejecutar($productoDAO->consultar());
+        $conexion -> abrir();
+        $productoDAO = new ProductoDAO("", $this -> nombre, $this -> tamano, $this -> precio, $this -> imagen, $this -> proveedor, $this -> tipoProducto);        
+        $conexion -> ejecutar($productoDAO -> crear());
+        $conexion -> cerrar();
+    }
+    
+    public function consultar(){
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $productoDAO = new ProductoDAO();        
+        $conexion -> ejecutar($productoDAO -> consultar());
         $productos = array();
-        while (($tupla = $conexion->registro()) != null) {
+        while (($tupla = $conexion -> registro()) != null){
             $proveedor = new Proveedor($tupla[5]);
-            $proveedor->consultarPorId();
+            $proveedor -> consultarPorId();            
             $tipoProducto = new TipoProducto($tupla[6]);
-            $tipoProducto->consultarPorId();
+            $tipoProducto -> consultarPorId();
             $producto = new Producto($tupla[0], $tupla[1], $tupla[2], $tupla[3], $tupla[4], $proveedor, $tipoProducto);
             array_push($productos, $producto);
         }
-        $conexion->cerrar();
+        $conexion -> cerrar();
         return $productos;
     }
-    public function consultarPorId()
-    {
-        $conexion = new Conexion();
-        $conexion->abrir();
-        $productoDAO = new ProductoDAO($this->id);
-        $conexion->ejecutar($productoDAO->consultarPorId());
-        $productos = array();
-        $tupla = $conexion->registro();
-        $proveedor = new Proveedor($tupla[5]);
-        
-        $tipoProducto = new TipoProducto($tupla[6]);
-        $tipoProducto->consultarPorId();
-        $this->id=$tupla[0];
-        $this->nombre=$tupla[1]; 
-        $this->tamano=$tupla[2]; 
-        $this->precio=$tupla[3]; 
-        $this->imagen=$tupla[4];
-        $this->proveedor=$tupla[5];
-        $this->tipoProducto=$tupla[6];
 
-    }
     public function buscar($filtro){
         $conexion = new Conexion();
         $conexion -> abrir();
@@ -98,62 +106,6 @@ class Producto
         }
         $conexion -> cerrar();
         return $productos;
-    }
-    public function getIdProducto()
-    {
-        return $this->id;
-    }
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-    }
-    public function getTamano()
-    {
-        return $this->tamano;
-    }
-    public function setTamano($tamano)
-    {
-        $this->tamano = $tamano;
-    }
-    public function getPrecioVenta()
-    {
-        return $this->precio;
-    }
-    public function setPrecioVenta($precio)
-    {
-        $this->precio = $precio;
-    }
-    public function getImagen()
-    {
-        return $this->imagen;
-    }
-    public function setImagen($imagen)
-    {
-        $this->imagen = $imagen;
-    }
-    public function getProveedor()
-    {
-        return $this->proveedor;
-    }
-    public function setProveedor($proveedor)
-    {
-        $this->proveedor = $proveedor;
-    }
-    public function getTipoProducto()
-    {
-        return $this->tipoProducto;
-    }
-    public function setTipoProducto($tipoProducto)
-    {
-        $this->tipoProducto = $tipoProducto;
     }
 
 }

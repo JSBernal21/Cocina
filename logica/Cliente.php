@@ -27,41 +27,37 @@ class Cliente extends Persona
         $this->fechaNacimiento = $fechaNacimiento;
     }
 
-    public function __construct($id = 0, $nombre = "", $apellido = "", $correo = "", $clave = "", $fechaNacimiento = "", $estado="")
-    {
+    
+    
+    public function __construct($id=0, $nombre="", $apellido="", $correo="", $clave="", $fechaNacimiento="", $estado=""){
         parent::__construct($id, $nombre, $apellido, $correo, $clave);
-        $this->fechaNacimiento = $fechaNacimiento;
+        $this -> fechaNacimiento = $fechaNacimiento;
         $this -> estado = $estado;
     }
-
-    public function registrar()
-    {
+    
+    public function registrar(){
         $conexion = new Conexion();
-        $conexion->abrir();
-        $clienteDAO = new ClienteDAO("", $this->nombre, $this->apellido, $this->fechaNacimiento, $this->correo, $this->clave);
-        $conexion->ejecutar($clienteDAO->registrar());
-        $conexion->cerrar();
-    }
-    public function editarEstado()
-    {
-        $conexion = new Conexion();
-        $conexion->abrir();
-        $clienteDAO = new ClienteDAO($this->id,"","","","","",$this->estado);
-        $conexion->ejecutar($clienteDAO->editarEstado());
-        $conexion->cerrar();
+        $conexion -> abrir();
+        $clienteDAO = new ClienteDAO("", $this -> nombre, $this -> apellido, $this -> fechaNacimiento, $this -> correo, $this -> clave, $this -> estado);        
+        $conexion -> ejecutar($clienteDAO -> registrar());
+        $conexion -> cerrar();
     }
 
-    public function consultar()
-    {
+    public function activar($correo){
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $clienteDAO = new ClienteDAO();
+        $conexion -> ejecutar($clienteDAO -> activar($correo));
+        $conexion -> cerrar();
+    }
+    public function consultar(){
         $conexion = new Conexion();
         $conexion->abrir();
         $clienteDAO = new ClienteDAO();
         $conexion->ejecutar($clienteDAO->consultar());
         $clientes = array();
-        while (($tupla = $conexion->registro()) != null) {
-            $this->nombre = $tupla[1];
-            $this->apellido = $tupla[2];
-            $cliente = new Cliente($tupla[0], $tupla[1], $tupla[2], $tupla[4], "", $tupla[3],$tupla[5]);
+        while(($tupla = $conexion -> registro()) != null){
+            $cliente = new Cliente($tupla[0], $tupla[1], $tupla[2], $tupla[4], "", $tupla[3], $tupla[5]);
             array_push($clientes, $cliente);
         }
         $conexion->cerrar();
@@ -95,9 +91,13 @@ class Cliente extends Persona
         $this->correo = $tupla[3];
         $conexion->cerrar();
     }
-    
-
-
+    public function cambiarEstado($estado){
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $clienteDAO = new ClienteDAO($this -> id,"","","","","",$estado);
+        $conexion -> ejecutar($clienteDAO -> editarEstado());
+        $conexion -> cerrar();
+    }
 }
 
 

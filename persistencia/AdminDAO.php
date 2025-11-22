@@ -24,6 +24,5 @@ class AdminDAO {
                 from Admin
                 where idAdmin = " . $this -> id;
     }
-    
 }
 

@@ -15,12 +15,18 @@ class ClienteDAO {
         $this -> fechaNacimiento = $fechaNacimiento;
         $this -> correo = $correo;
         $this -> clave = $clave;
-        $this -> estado = $estado;
+        $this -> estado = $estado;     
     }
     
     public function registrar(){
-        return "insert into Cliente(nombre, apellido, fechaNacimiento, correo, clave)
-                values ('" . $this -> nombre . "', '" . $this -> apellido . "', '" . $this -> fechaNacimiento . "', '" . $this -> correo . "', md5('" . $this -> clave . "'))";
+        return "insert into Cliente(nombre, apellido, fechaNacimiento, correo, clave, estado)
+                values ('" . $this -> nombre . "', '" . $this -> apellido . "', '" . $this -> fechaNacimiento . "', '" . $this -> correo . "', md5('" . $this -> clave . "'), '0')";
+    }
+
+    public function activar($correo){
+        return "update Cliente
+                set estado = '1'
+                where correo = '" . $correo . "'";
     }
     public function editarEstado(){
         return "update Cliente set estado=".$this->estado." where idCliente=".$this -> id;

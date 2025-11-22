@@ -1,16 +1,17 @@
 <?php
+require_once ("logica/Producto.php");
+$producto = new Producto();
+$productos = $producto -> consultar();
 
-if (strtolower($_SESSION["rol"]) != 'admin') {
-    if ($_SESSION["id"] == NULL) {
-        header("Location: ?pid=" . base64_encode("presentacion/inicio.php"));
-    } else {
-        header("Location: ?pid=" . base64_encode("presentacion/sesion" . $_SESSION["rol"] . ".php"));
-    }
-} else {
-    include("presentacion/menuAdmin.php");
+$id = $_SESSION["id"];
+if ($_SESSION["rol"] != "admin") {
+    header('Location: ?pid=' . base64_encode("noAutorizado.php"));
 }
+$admin = new Admin($id);
+$admin->consultarPorId();
 ?>
 <body>
+    <?php include 'presentacion/menuAdministrador.php'; ?>
     <div class="container">
         <div class="row mt-5">
             <div class="col">
@@ -39,8 +40,9 @@ if (strtolower($_SESSION["rol"]) != 'admin') {
 $( "#filtro" ).on( "keyup", function() {
 	if($("#filtro").val().length >= 3){
 	    filtro = $("#filtro").val().replace(" ", "%20");
-  		url = "?pid=<?php echo base64_encode("presentacion/producto/buscarProductoAjax.php") ?>&filtro=" + filtro;
+  		url = "buscarProductoAjax.php?filtro=" + filtro;
   		$("#resultados").load(url);
   	}
 } );
+
 </script>

@@ -2,7 +2,7 @@
 $producto = new Producto();
 $productos = $producto->consultar();
 if ($_SESSION["rol"] == "admin") {
-	include("presentacion/menuAdmin.php");
+	include("presentacion/menuAdministrador.php");
 } else if ($_SESSION["rol"] == "cliente") {
 	include("presentacion/cliente/menuCliente.php");
 }
@@ -25,30 +25,30 @@ if ($_SESSION["rol"] == "admin") {
 						<table class="table table-striped table-hover text-start">
 							<thead>
 								<tr>
-									<th scope="col">ID</th>
+									<th scope="col">Id</th>
 									<th scope="col">Nombre</th>
-									<th scope="col">tamaño</th>
-									<th scope="col">Precio de Venta</th>
+									<th scope="col">Tamaño</th>
+									<th scope="col">Precio de venta</th>
+									<th scope="col">imagen</th>
 									<th scope="col">Proveedor</th>
 									<th scope="col">Tipo de Producto</th>
-									<th scope="col">Opcion</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 								foreach ($productos as $p) {
 									echo "<tr>";
-									echo "<td>" . $p->getIdProducto() . "</td>";
+									echo "<td>" . $p->getId() . "</td>";
 									echo "<td>" . $p->getNombre() . "</td>";
 									echo "<td>" . $p->getTamano() . "</td>";
-									echo "<td>" . $p->getPrecioVenta() . "</td>";
+									echo "<td>" . $p->getPrecio() . "</td>";
+									if ($p->getImagen() != "") {
+										echo "<td><img src='imagenes/" . $p->getImagen() . "' height='60px'></td>";
+									} else {
+										echo "<td></td>";
+									}
 									echo "<td>" . $p->getProveedor()->getNombre() . "</td>";
 									echo "<td>" . $p->getTipoProducto()->getNombre() . "</td>";
-									echo "<td scope='col'>
-                                    <a href='?pid=" . base64_encode("presentacion/producto/editarProducto.php") . "&id=" . $p->getIdProducto() . "'>
-                                        <button type='submit' class='btn btn-warning'>Editar</button>
-                                    </a>
-                                    </td>";
 									echo "</tr>";
 								}
 								?>

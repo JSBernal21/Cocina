@@ -9,6 +9,6 @@ if (strtolower($_SESSION["rol"]) != 'admin') {
 } else {
     $admin = new Admin($id);
     $admin->consultarPorId();
-    include("presentacion/menuAdmin.php");
+    include("presentacion/menuAdministrador.php");
 }
 ?>

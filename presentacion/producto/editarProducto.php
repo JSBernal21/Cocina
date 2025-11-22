@@ -70,7 +70,7 @@ include("presentacion/menuAdmin.php");
 					?>
 					<form method="post" enctype="multipart/form-data"
 						action="?pid=<?php echo base64_encode("presentacion/producto/editarProducto.php"); ?>">
-						<input type="hidden" name="id" value="<?php echo $producto->getIdProducto(); ?>">
+						<input type="hidden" name="id" value="<?php echo $producto->getId(); ?>">
 						<input type='hidden' class='form-control mb-3' name='imagenAnt'
 							value='<?php echo $producto->getImagen() ?>' required>
 						<div class="mb-3">
@@ -86,7 +86,7 @@ include("presentacion/menuAdmin.php");
 						<div class="mb-3">
 							<label>Precio:</label>
 							<input type="number" class="form-control" name="precioVenta" placeholder="Precio de Venta"
-								required value="<?php echo $producto->getPrecioVenta(); ?>">
+								required value="<?php echo $producto->getPrecio(); ?>">
 						</div>
 						<div class="mb-3">
 							<label>Imagen: </label>
